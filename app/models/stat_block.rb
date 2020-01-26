@@ -1,0 +1,2 @@
+class StatBlock < ApplicationRecord
+end
