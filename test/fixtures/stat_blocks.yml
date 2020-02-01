@@ -1,0 +1,57 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  id: 1
+  name: "TestCritter"
+  armor_class: 10
+  hit_points: 10
+  speed: "land: 30ft"
+  str: 10
+  dex: 10
+  con: 10
+  int: 10
+  wis: 10
+  cha: 10
+  saving_throws: "Wis(+2)"
+  skills: "Cool Skillz"
+  damage_resistance: "Bludgeoning"
+  condition_immunities: "Exhaustion"
+  senses: "Darkvision(10ft)"
+  languages: "Common"
+  challenge_rating: 1
+  experience_points: 100
+  abilities: "Cool Abilities"
+  actions: "Cool Actions"
+  legendary_actions: "Legendary Actions"
+  creature_type: "Beast"
+  alignment: "Chaotic Neutral"
+  created_at: 2020-01-25T15:56:17.623Z
+  updated_at: 2020-01-25T15:56:17.623Z
+
+two:
+  id: 2
+  name: MyString
+  armor_class: 1
+  hit_points: 1
+  speed: MyText
+  str: 1
+  dex: 1
+  con: 1
+  int: 1
+  wis: 1
+  cha: 1
+  saving_throws: MyText
+  skills: MyText
+  damage_resistance: MyText
+  condition_immunities: MyText
+  senses: MyText
+  languages: MyText
+  challenge_rating: 1
+  experience_points: 1
+  abilities: MyText
+  actions: MyText
+  legendary_actions: MyText
+  creature_type: MyString
+  alignment: MyString
+  created_at: 2020-01-25T15:56:17.623Z
+  updated_at: 2020-01-25T15:56:17.623Z
