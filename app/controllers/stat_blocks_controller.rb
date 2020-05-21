@@ -48,6 +48,8 @@ class StatBlocksController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def stat_block_params
+      puts params
+      puts "/n" * 100
       params.require(:stat_block).permit(:name, :armor_class, :hit_points, :speed, :str, :dex, :con, :int, :wis, :cha, :saving_throws, :skills, :damage_resistance, :condition_immunities, :senses, :languages, :challenge_rating, :experience_points, :abilities, :actions, :legendary_actions, :creature_type, :alignment)
     end
 end
