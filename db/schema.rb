@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_25_153513) do
+ActiveRecord::Schema.define(version: 2020_04_09_183906) do
 
   create_table "stat_blocks", force: :cascade do |t|
     t.string "name"
@@ -38,6 +38,8 @@ ActiveRecord::Schema.define(version: 2020_01_25_153513) do
     t.string "alignment"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "vulnerability"
+    t.string "damage_immunities"
   end
 
 end
