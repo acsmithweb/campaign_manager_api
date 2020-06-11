@@ -40,6 +40,13 @@ class StatBlocksController < ApplicationController
     @stat_block.destroy
   end
 
+  #Bulk delete
+  def bulk_destroy
+    @stat_block = StatBlock.destroy(params[:ids])
+    render json: @stat_block
+  end
+
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_stat_block
