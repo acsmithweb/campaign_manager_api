@@ -12,7 +12,7 @@ class StatBlocksController < ApplicationController
   # GET /stat_blocks/1
   # take parameter to find by ond order by
   def show
-    render json: @stat_block
+
   end
 
   # POST /stat_blocks
@@ -40,14 +40,31 @@ class StatBlocksController < ApplicationController
     @stat_block.destroy
   end
 
+  #Bulk delete
+  def bulk_destroy
+    @stat_block = StatBlock.destroy(params[:ids])
+    render json: @stat_block
+  end
+
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_stat_block
-      @stat_block = StatBlock.find(params[:id])
+      StatBlock.exists?(id: params[:id]) ? (@stat_block = StatBlock.find(params[:id])) : stat_block_not_found_error
     end
 
     # Only allow a trusted parameter "white list" through.
     def stat_block_params
       params.require(:stat_block).permit(:name, :armor_class, :hit_points, :speed, :str, :dex, :con, :int, :wis, :cha, :saving_throws, :skills, :damage_resistance, :condition_immunities, :damage_immunities, :senses, :languages, :challenge_rating, :experience_points, :abilities, :actions, :legendary_actions, :creature_type, :alignment, :vulnerability)
+    end
+
+    def stat_block_not_found_error
+      render json: {
+        error:
+          {
+            status: '204',
+            message: 'Resource Not Found'
+          }
+      }
     end
 end
