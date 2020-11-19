@@ -1,0 +1,16 @@
+current directory: /home/mariochase/RubyProjects/campaign_manager/campaign_manager_api/vendor/bundle/ruby/2.7.0/gems/unf_ext-0.0.7.7/ext/unf_ext
+/usr/bin/ruby2.7 -I /usr/lib/ruby/2.7.0 -r ./siteconf20201118-78416-1kcbyaz.rb extconf.rb
+checking for -lstdc++... yes
+creating Makefile
+
+current directory: /home/mariochase/RubyProjects/campaign_manager/campaign_manager_api/vendor/bundle/ruby/2.7.0/gems/unf_ext-0.0.7.7/ext/unf_ext
+make "DESTDIR=" clean
+
+current directory: /home/mariochase/RubyProjects/campaign_manager/campaign_manager_api/vendor/bundle/ruby/2.7.0/gems/unf_ext-0.0.7.7/ext/unf_ext
+make "DESTDIR="
+compiling unf.cc
+linking shared-object unf_ext.so
+
+current directory: /home/mariochase/RubyProjects/campaign_manager/campaign_manager_api/vendor/bundle/ruby/2.7.0/gems/unf_ext-0.0.7.7/ext/unf_ext
+make "DESTDIR=" install
+/usr/bin/install -c -m 0755 unf_ext.so ./.gem.20201118-78416-19n7ld8
