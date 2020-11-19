@@ -1,0 +1,39 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  desc: MyText
+  higher_level: MyText
+  range: MyString
+  components: MyString
+  material: MyText
+  ritual: false
+  duration: MyString
+  concentration: false
+  casting_time: MyString
+  level: 1
+  attack_type: MyString
+  damage_at_slot_level: MyText
+  school: MyString
+  classes: MyText
+  dc: MyText
+  area_of_effect: MyText
+
+two:
+  name: MyString
+  desc: MyText
+  higher_level: MyText
+  range: MyString
+  components: MyString
+  material: MyText
+  ritual: false
+  duration: MyString
+  concentration: false
+  casting_time: MyString
+  level: 1
+  attack_type: MyString
+  damage_at_slot_level: MyText
+  school: MyString
+  classes: MyText
+  dc: MyText
+  area_of_effect: MyText

@@ -10,12 +10,42 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_09_183906) do
+ActiveRecord::Schema.define(version: 2020_11_05_192306) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "spells", force: :cascade do |t|
+    t.string "name"
+    t.text "desc"
+    t.text "higher_level"
+    t.string "range"
+    t.string "components"
+    t.text "material"
+    t.boolean "ritual"
+    t.string "duration"
+    t.boolean "concentration"
+    t.string "casting_time"
+    t.integer "level"
+    t.string "attack_type"
+    t.text "heal_at_slot_level"
+    t.text "damage_at_slot_level"
+    t.text "damage_at_character_level"
+    t.string "damage_type"
+    t.string "school"
+    t.text "classes"
+    t.text "dc"
+    t.string "dc_success"
+    t.text "area_of_effect"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "stat_blocks", force: :cascade do |t|
     t.string "name"
     t.integer "armor_class"
     t.integer "hit_points"
+    t.text "hit_dice"
     t.text "speed"
     t.integer "str"
     t.integer "dex"
@@ -27,6 +57,8 @@ ActiveRecord::Schema.define(version: 2020_04_09_183906) do
     t.text "skills"
     t.text "damage_resistance"
     t.text "condition_immunities"
+    t.text "damage_immunities"
+    t.text "vulnerability"
     t.text "senses"
     t.text "languages"
     t.integer "challenge_rating"
@@ -38,8 +70,6 @@ ActiveRecord::Schema.define(version: 2020_04_09_183906) do
     t.string "alignment"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "vulnerability"
-    t.string "damage_immunities"
   end
 
 end

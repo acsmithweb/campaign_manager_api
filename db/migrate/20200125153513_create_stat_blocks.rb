@@ -4,6 +4,7 @@ class CreateStatBlocks < ActiveRecord::Migration[6.0]
       t.string :name
       t.integer :armor_class
       t.integer :hit_points
+      t.text :hit_dice
       t.text :speed
       t.integer :str
       t.integer :dex
@@ -15,6 +16,8 @@ class CreateStatBlocks < ActiveRecord::Migration[6.0]
       t.text :skills
       t.text :damage_resistance
       t.text :condition_immunities
+      t.text :damage_immunities
+      t.text :vulnerability
       t.text :senses
       t.text :languages
       t.integer :challenge_rating
