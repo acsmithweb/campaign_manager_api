@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 2020_11_05_192306) do
 
   create_table "stat_blocks", force: :cascade do |t|
     t.string "name"
+    t.text "size"
     t.integer "armor_class"
     t.integer "hit_points"
     t.text "hit_dice"

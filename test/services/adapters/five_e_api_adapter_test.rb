@@ -2,7 +2,7 @@ require 'test_helper'
 require 'rest_client'
 
 class Adapters::FiveEApiAdapterTest < ActiveSupport::TestCase
-  test 'get_all_spells should return the body response when call is successfull' do
+  test 'get_all_resources should return all spell details when spells is passed as an argument' do
     mock = Minitest::Mock.new
     mock_total_spells_response = Minitest::Mock.new
     mock_single_spell_response = Minitest::Mock.new
@@ -18,7 +18,7 @@ class Adapters::FiveEApiAdapterTest < ActiveSupport::TestCase
 
     Facades::FiveEApi.stub :get_spells, spell_result_name do
       Facades::FiveEApi.stub :get_spell, test_spell_result do
-        assert_equal(Adapters::FiveEApiAdapter.get_all_spells, [test_spell_result])
+        assert_equal(Adapters::FiveEApiAdapter.get_details_for('spells'), [test_spell_result])
       end
     end
   end

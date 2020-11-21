@@ -3,21 +3,55 @@ require 'rest-client'
 class Facades::FiveEApi
   URL = 'https://www.dnd5eapi.co'
 
+  def self.get_resources(resource_type)
+    case resource_type.downcase
+    when 'spells'
+      get_spells
+    when 'monsters'
+      get_monsters
+    end
+  end
+
+  def self.get_resource(resource_type, resource_value, value_type)
+    case resource_type.downcase
+    when 'spells'
+      get_spell(resource_value, value_type)
+    when 'monsters'
+      get_monster(resource_value, value_type)
+    end
+  end
+
   def self.get_spells
-    call_response = use_get_call('/api/spells')
-    handle_code(call_response.code)
-    ActiveSupport::JSON.decode(call_response.body)['results']
+    ActiveSupport::JSON.decode(use_get_call('/api/spells').body)['results']
+  end
+
+  def self.get_monsters
+    ActiveSupport::JSON.decode(use_get_call('/api/monsters').body)['results']
   end
 
   def self.get_spell(spell_name_value, value_type)
+    call_for_resource('spells', spell_name_value, value_type)
+  end
+
+  def self.get_monster(monster_name_value, value_type)
+    call_for_resource('monsters', monster_name_value, value_type)
+  end
+
+  private
+
+  def self.call_for_resource_names(resource_type)
+    use_get_call('/api/' + resource_type)
+  end
+
+  def self.call_for_resource(resource_type, resource_value, value_type)
     call_string = nil
     case value_type.downcase
     when "name"
-      call_string = '/api/spells/' + spell_name_to_index(spell_name_value)
+      call_string = "/api/" + resource_type + '/' + name_to_index(resource_value)
     when "url"
-      call_string = spell_name_value
+      call_string = resource_value
     when "index"
-      call_string = '/api/spells/' + spell_name_value
+      call_string = "/api/" + resource_type + '/' + resource_value
     else
       raise RuntimeError.new 'Incorrect value type entered'
     end
@@ -26,10 +60,8 @@ class Facades::FiveEApi
     call_response.body
   end
 
-  private
-
-  def self.spell_name_to_index(spell_name)
-    spell_name.gsub(' ','-').downcase
+  def self.name_to_index(name)
+    name.gsub(' ','-').downcase
   end
 
   def self.use_get_call(url_append)
