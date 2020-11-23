@@ -3,8 +3,10 @@
 one:
   id: 1
   name: "TestCritter"
+  size: "medium"
   armor_class: 10
   hit_points: 10
+  hit_dice: "3d6"
   speed: "land: 30ft"
   str: 10
   dex: 10
@@ -16,6 +18,8 @@ one:
   skills: "Cool Skillz"
   damage_resistance: "Bludgeoning"
   condition_immunities: "Exhaustion"
+  damage_immunities: null
+  vulnerability: null
   senses: "Darkvision(10ft)"
   languages: "Common"
   challenge_rating: 1
@@ -31,8 +35,10 @@ one:
 two:
   id: 2
   name: MyString
+  size: "medium"
   armor_class: 1
   hit_points: 1
+  hit_dice: "3d6"
   speed: MyText
   str: 1
   dex: 1
@@ -44,6 +50,8 @@ two:
   skills: MyText
   damage_resistance: MyText
   condition_immunities: MyText
+  damage_immunities: null
+  vulnerability: null
   senses: MyText
   languages: MyText
   challenge_rating: 1
