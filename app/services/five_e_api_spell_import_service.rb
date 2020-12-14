@@ -6,7 +6,7 @@ class FiveEApiSpellImportService
   end
 
   def import_spells
-    spells = Adapters::FiveEApiAdapter.get_all_spells
+    spells = Adapters::FiveEApiAdapter.get_details_for('spells')
     spells.each{|spell|
       spell_attributes = spell_details(ActiveSupport::JSON.decode(spell))
       new_spell = Spell.create(spell_attributes)

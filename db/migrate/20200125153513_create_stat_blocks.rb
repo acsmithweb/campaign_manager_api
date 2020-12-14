@@ -2,6 +2,7 @@ class CreateStatBlocks < ActiveRecord::Migration[6.0]
   def change
     create_table :stat_blocks do |t|
       t.string :name
+      t.text :size
       t.integer :armor_class
       t.integer :hit_points
       t.text :hit_dice

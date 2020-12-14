@@ -55,7 +55,7 @@ class StatBlocksController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def stat_block_params
-      params.require(:stat_block).permit(:name, :armor_class, :hit_points, :speed, :str, :dex, :con, :int, :wis, :cha, :saving_throws, :skills, :damage_resistance, :condition_immunities, :damage_immunities, :senses, :languages, :challenge_rating, :experience_points, :abilities, :actions, :legendary_actions, :creature_type, :alignment, :vulnerability)
+      params.require(:stat_block).permit(:name, :armor_class, :hit_points, :size, :hit_dice, :damage_immunities, :vulnerability, :speed, :str, :dex, :con, :int, :wis, :cha, :saving_throws, :skills, :damage_resistance, :condition_immunities, :damage_immunities, :senses, :languages, :challenge_rating, :experience_points, :abilities, :actions, :legendary_actions, :creature_type, :alignment, :vulnerability)
     end
 
     def stat_block_not_found_error

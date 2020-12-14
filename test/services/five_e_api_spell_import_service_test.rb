@@ -11,7 +11,7 @@ class FiveEApiSpellImportServiceTest < ActiveSupport::TestCase
 
     created_spell = Spell.new({:id=>980190963, :name=>"Black Tentacles", :desc=>["Squirming, ebony tentacles fill a 20-foot square on ground that you can see within range. For the duration, these tentacles turn the ground in the area into difficult terrain.", "When a creature enters the affected area for the first time on a turn or starts its turn there, the creature must succeed on a Dexterity saving throw or take 3d6 bludgeoning damage and be restrained by the tentacles until the spell ends. A creature that starts its turn in the area and is already restrained by the tentacles takes 3d6 bludgeoning damage.", "A creature restrained by the tentacles can use its action to make a Strength or Dexterity check (its choice) against your spell save DC. On a success, it frees itself."], :higher_level=>nil, :range=>"90 feet", :components=>["V", "S", "M"], :material=>"A piece of tentacle from a giant octopus or a giant squid", :ritual=>false, :duration=>"Up to 1 minute", :concentration=>true, :casting_time=>"1 action", :level=>4, :attack_type=>nil, :damage_at_slot_level=>{"4"=>"3d6"}, :school=>"Conjuration", :classes=>["Wizard"], :dc=>"DEX,none", :area_of_effect=>{"type"=>"cube", "size"=>20}, :heal_at_slot_level=>nil, :dc_success=>"none", :damage_type=>nil, :damage_at_character_level=>nil})
 
-    Adapters::FiveEApiAdapter.stub :get_all_spells, spells_from_api do
+    Adapters::FiveEApiAdapter.stub :get_details_for, spells_from_api do
       ActiveSupport::JSON.stub :decode, decoded_spells_from_api do
         FiveEApiSpellImportService.new.execute
         assert_equal(Spell.find_by(name: 'Black Tentacles'), created_spell)
