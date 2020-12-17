@@ -4,8 +4,13 @@ class StatBlocksController < ApplicationController
   # GET /stat_blocks
   # take parameter to find by ond order by
   def index
-    @stat_blocks = StatBlock.all
-
+    case params[:search_param]
+    when 'id'
+      puts 'search ids'
+      @stat_blocks = StatBlock.find(params[:search_values])
+    when nil
+      @stat_blocks = StatBlock.all
+    end
     render json: @stat_blocks
   end
 
@@ -28,12 +33,20 @@ class StatBlocksController < ApplicationController
 
   # PATCH/PUT /stat_blocks/1
   def update
-    if @stat_block.update(stat_block_params)
+    @stat_block = set_stat_block
+    if @stat_block.update(stat_block_params.except(:id))
       render json: @stat_block
     else
       render json: @stat_block.errors, status: :unprocessable_entity
     end
   end
+
+  # def bulk_update
+  #   params[:stat_block].each_with_index do |stat_block, index|
+  #     @stat_block = StatBlock.find(stat_block[:id])
+  #     @stat_block.update(stat_block_params(stat_block))
+  #   end
+  # end
 
   # DELETE /stat_blocks/1
   def destroy
@@ -55,7 +68,7 @@ class StatBlocksController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def stat_block_params
-      params.require(:stat_block).permit(:name, :armor_class, :hit_points, :size, :hit_dice, :damage_immunities, :vulnerability, :speed, :str, :dex, :con, :int, :wis, :cha, :saving_throws, :skills, :damage_resistance, :condition_immunities, :damage_immunities, :senses, :languages, :challenge_rating, :experience_points, :abilities, :actions, :legendary_actions, :creature_type, :alignment, :vulnerability)
+      params.permit(:name, :armor_class, :hit_points, :size, :hit_dice, :damage_immunities, :vulnerability, :speed, :str, :dex, :con, :int, :wis, :cha, :saving_throws, :skills, :damage_resistance, :condition_immunities, :damage_immunities, :senses, :languages, :challenge_rating, :experience_points, :abilities, :actions, :legendary_actions, :creature_type, :alignment, :vulnerability)
     end
 
     def stat_block_not_found_error
