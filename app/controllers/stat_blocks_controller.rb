@@ -8,6 +8,8 @@ class StatBlocksController < ApplicationController
     when 'id'
       puts 'search ids'
       @stat_blocks = StatBlock.find(params[:search_values])
+    when 'text'
+      @stat_blocks = StatBlock.search(params[:search_values])
     when nil
       @stat_blocks = StatBlock.all
     end
@@ -40,13 +42,6 @@ class StatBlocksController < ApplicationController
       render json: @stat_block.errors, status: :unprocessable_entity
     end
   end
-
-  # def bulk_update
-  #   params[:stat_block].each_with_index do |stat_block, index|
-  #     @stat_block = StatBlock.find(stat_block[:id])
-  #     @stat_block.update(stat_block_params(stat_block))
-  #   end
-  # end
 
   # DELETE /stat_blocks/1
   def destroy
