@@ -6,7 +6,6 @@ class StatBlocksController < ApplicationController
   def index
     case params[:search_param]
     when 'id'
-      puts 'search ids'
       @stat_blocks = StatBlock.find(params[:search_values])
     when 'text'
       @stat_blocks = StatBlock.search(params[:search_values])
@@ -24,6 +23,8 @@ class StatBlocksController < ApplicationController
 
   # POST /stat_blocks
   def create
+    puts params
+    puts stat_block_params
     @stat_block = StatBlock.new(stat_block_params)
 
     if @stat_block.save
