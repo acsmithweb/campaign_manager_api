@@ -23,8 +23,6 @@ class StatBlocksController < ApplicationController
 
   # POST /stat_blocks
   def create
-    puts params
-    puts stat_block_params
     @stat_block = StatBlock.new(stat_block_params)
 
     if @stat_block.save
