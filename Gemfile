@@ -12,6 +12,8 @@ gem 'pg_search'
 gem 'puma', '~> 4.1'
 gem 'rack-cors'
 gem 'rest-client'
+gem 'rtesseract'
+gem 'mini_magick'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.7'
 # Use Redis adapter to run Action Cable in production
