@@ -9,7 +9,7 @@ gem 'rails', '~> 6.0.2', '>= 6.0.2.1'
 gem 'pg'
 gem 'pg_search'
 # Use Puma as the app server
-gem 'puma', '~> 4.1'
+gem 'puma', '~> 4.3'
 gem 'rack-cors'
 gem 'rest-client'
 gem 'rtesseract'
