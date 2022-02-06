@@ -3,8 +3,14 @@ class SpellsController < ApplicationController
 
   # GET /spells
   def index
-    @spells = Spell.all
-
+    case params[:search_param]
+    when 'id'
+      @spells = Spell.find(params[:search_values])
+    when 'text'
+      @spells = Spell.search(params[:search_values])
+    when nil
+      @spells = Spell.all
+    end
     render json: @spells
   end
 
@@ -38,6 +44,11 @@ class SpellsController < ApplicationController
     @spell.destroy
   end
 
+  def bulk_destroy
+    @spell = Spell.destroy(params[:ids])
+    render json: @spell
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_spell
@@ -46,6 +57,6 @@ class SpellsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def spell_params
-      params.require(:spell).permit(:name, :desc, :higher_level, :range, :components, :material, :ritual, :duration, :concentration, :casting_time, :level, :attack_type, :damage_at_slot_level, :school, :classes, :dc, :area_of_effect)
+      params.permit(:name, :desc, :higher_level, :range, :components, :material, :ritual, :duration, :concentration, :casting_time, :level, :attack_type, :damage_at_slot_level, :school, :classes, :dc, :area_of_effect, :damage_type)
     end
 end
