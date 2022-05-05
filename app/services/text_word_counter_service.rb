@@ -1,5 +1,5 @@
 class TextWordCounterService
-  STOP_WORDS = ['with','has','hit','or', 'a','it','points',"can't",'is','the','to','its','of','and','is','can','if','must','each','that','in','for','makes','as','an','on','by','at','this','form','foot','be','use','magically','from','choice','up','which','also','way','her','used','into','she','are','away','out','to']
+  STOP_WORDS = ['with','has','class','weapon','target','hit','or', 'a','it','points',"can't",'is','the','to','its','of','and','is','can','if','must','each','that','in','for','makes','as','an','on','by','at','this','form','foot','be','use','magically','from','choice','up','which','also','way','her','used','into','she','are','away','out','to']
   COMPRESS_FEET = /(\d+)\s(ft)/
   COMPRESS_SPELL_LEVEL = /(1st|2nd|3rd|4th|5th|6th|7th|8th|9th)\s(level)/
   COMPRESS_SPELL_SLOT = /(\d+)\s(slots?)/
@@ -11,15 +11,17 @@ class TextWordCounterService
   end
 
   def self.word_count(text)
+    spellcheck = DungeonDictionary.new
     text_list = {}
     count = 0
     process_string(text.downcase).split(' ').each{
     |word|
+      corrected_word = spellcheck.corrected_word(word)
       count += 1
-      if text_list[word].nil? == false
-        text_list[word] += 1
+      if text_list[corrected_word].nil? == false
+        text_list[corrected_word] += 1
       else
-        text_list[word] = 1
+        text_list[corrected_word] = 1
       end
     }
     text_list = text_list.sort_by {|key, value| value}.reverse.to_h

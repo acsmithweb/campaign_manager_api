@@ -14,6 +14,9 @@ gem 'rack-cors'
 gem 'rest-client'
 gem 'rtesseract'
 gem 'mini_magick'
+gem 'hunspell'
+gem 'ffi-hunspell'
+gem 'jaro_winkler'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.7'
 # Use Redis adapter to run Action Cable in production
