@@ -10,10 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_05_192306) do
+ActiveRecord::Schema.define(version: 2022_09_02_155448) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "categories", force: :cascade do |t|
+    t.string "category_type"
+    t.text "related_words"
+    t.integer "document_count", default: 0
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "spells", force: :cascade do |t|
     t.string "name"
@@ -42,7 +50,7 @@ ActiveRecord::Schema.define(version: 2020_11_05_192306) do
   end
 
   create_table "stat_blocks", force: :cascade do |t|
-    t.string "name"
+    t.text "name"
     t.text "size"
     t.integer "armor_class"
     t.integer "hit_points"
@@ -71,6 +79,10 @@ ActiveRecord::Schema.define(version: 2020_11_05_192306) do
     t.string "alignment"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "environment"
+    t.string "description"
+    t.string "slots"
+    t.string "spells"
   end
 
 end

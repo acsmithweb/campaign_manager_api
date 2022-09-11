@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  category_type: MyString
+  related_words: MyText
+  document_count: 1
+
+two:
+  category_type: MyString
+  related_words: MyText
+  document_count: 1

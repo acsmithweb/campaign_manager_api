@@ -19,7 +19,7 @@ class StatBlock < ApplicationRecord
 
 #"Select plainto_tsquery('english', '" + string.gsub(/[^a-z0-9\s]/i, '') + "');"
 
-  validates :name, presence: true, length: {maximum: 32}
+  validates :name, presence: true
   validates :armor_class, presence: true, numericality: true
   validates :hit_points, presence: true, numericality: true
   validates :str, presence: true, numericality: true
@@ -30,5 +30,4 @@ class StatBlock < ApplicationRecord
   validates :cha, presence: true, numericality: true
   validates :challenge_rating, presence: true, numericality: true
   validates :experience_points, presence: true, numericality: true
-  validates :creature_type, presence: true
 end
