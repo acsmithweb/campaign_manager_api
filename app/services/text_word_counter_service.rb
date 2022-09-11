@@ -14,8 +14,8 @@ class TextWordCounterService
     spellcheck = DungeonDictionary.new
     text_list = {}
     count = 0
-    process_string(text.downcase).split(' ').each{
-    |word|
+    process_string(text.downcase).split(' ').each{|word|
+      next if word.length < 3
       corrected_word = spellcheck.corrected_word(word)
       count += 1
       if text_list[corrected_word].nil? == false

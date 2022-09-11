@@ -14,14 +14,20 @@ class Category < ApplicationRecord
   def calculate_tf_idf(stat_block)
     test_hash = {}
     TextWordCounterService.execute(stat_block_actions(stat_block)).each {|key, value|
-      if self.related_words.key?(key) == true
-        test_hash.store(key, (value[:term_frequency].to_f * (inverse_document_frequency(key)).to_f).to_f)
+      next if key.length < 3
+      if self.focused_words.to_h.key?(key) == true
+        tf = (value[:term_frequency].to_f * (inverse_document_frequency(key)).to_f).to_f
+        test_hash.store(key, tf) if (tf < 0.02 && tf > 0.005)
       end
     }
     test_hash.to_h
   end
 
   private
+
+  def focused_words
+    related_words.collect{|word| word if (word[1][:document_frequency] > document_count/2) && word[0].length > 3 && word[1][:word_count] > 1}.compact
+  end
 
   def inverse_document_frequency(key)
     Math.log((1 + self.document_count.to_f) / (1 + self.related_words[key][:document_frequency].to_f)) + 1
@@ -39,11 +45,10 @@ class Category < ApplicationRecord
       end
     }
     self.related_words = related_words_hash
-    puts self.related_words
     self.save
   end
 
   def stat_block_actions(stat_block)
-    return stat_block.actions.to_s + ' ' + stat_block.abilities.to_s + ' ' + stat_block.legendary_actions.to_s
+    return (stat_block.actions.to_s + ' ' + stat_block.abilities.to_s + ' ' + stat_block.legendary_actions.to_s)
   end
 end

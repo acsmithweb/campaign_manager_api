@@ -6,7 +6,7 @@ class ImageToCreatureService
     processed_image = image.quantize("Gray").colorspace("Gray").density(2400).black_threshold("1%").adaptive_sharpen(3).write('test.png')
     tess_file = File.join(Rails.root, 'test.png')
     tess = RTesseract.new(tess_file, lang: 'eng').to_s.downcase.split("\n")
-    return component_search(clean_results(tess))
+    return clean_results(tess)
   end
 
   def self.component_search(cleaned_tess)
@@ -41,7 +41,7 @@ class ImageToCreatureService
             distance = JaroWinkler.distance(word, element, adj_table: true, weight: 0.15, threshold: 0.75)
             distance -= 0.25 if word.size != element.size
             if distance > 0.9
-              puts word
+              puts segment
             end
           end
         end

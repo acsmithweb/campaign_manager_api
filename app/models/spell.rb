@@ -17,5 +17,4 @@ class Spell < ApplicationRecord
   validates :casting_time, presence: true
   validates :level, presence: true
   validates :school, presence: true
-  validates :classes, presence: true
 end
