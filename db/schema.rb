@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_09_02_155448) do
+ActiveRecord::Schema.define(version: 2022_09_13_020915) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,22 @@ ActiveRecord::Schema.define(version: 2022_09_02_155448) do
     t.integer "document_count", default: 0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "items", force: :cascade do |t|
+    t.text "name"
+    t.text "details"
+    t.text "item_type"
+    t.boolean "magic"
+    t.integer "ac"
+    t.decimal "weight"
+    t.decimal "value"
+    t.text "damage"
+    t.text "property"
+    t.text "dmg_type"
+    t.text "desc"
+    t.boolean "stealth"
+    t.text "rolls"
   end
 
   create_table "spells", force: :cascade do |t|
