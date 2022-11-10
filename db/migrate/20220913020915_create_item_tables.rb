@@ -6,8 +6,8 @@ class CreateItemTables < ActiveRecord::Migration[6.0]
       t.text :item_type
       t.boolean :magic
       t.integer :ac
-      t.decimal :weight
-      t.decimal :value
+      t.float :weight
+      t.float :value
       t.text :damage
       t.text :property
       t.text :dmg_type

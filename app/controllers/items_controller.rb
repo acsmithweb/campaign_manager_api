@@ -5,11 +5,11 @@ class ItemsController < ApplicationController
   def index
     case params[:search_param]
     when 'id'
-      @items = item.find(params[:search_values])
+      @items = Item.find(params[:search_values])
     when 'text'
-      @items = item.search(params[:search_values])
+      @items = Item.search(params[:search_values])
     when nil
-      @items = item.all
+      @items = Item.all
     end
     render json: @items
   end
@@ -21,7 +21,7 @@ class ItemsController < ApplicationController
 
   # POST /items
   def create
-    @item = item.new(item_params)
+    @item = Item.new(item_params)
 
     if @item.save
       render json: @item, status: :created, location: @item
@@ -45,7 +45,7 @@ class ItemsController < ApplicationController
   end
 
   def bulk_destroy
-    @item = item.destroy(params[:ids])
+    @item = Item.destroy(params[:ids])
     render json: @item
   end
 

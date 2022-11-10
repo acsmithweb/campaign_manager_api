@@ -26,6 +26,7 @@ class FightClubItemImportService
       value: value,
       property: property,
       damage: damage,
+      desc: desc,
       dmg_type: dmg_type,
       rolls: rolls
     }
