@@ -10,10 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_09_02_155448) do
+ActiveRecord::Schema.define(version: 2022_09_24_175449) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "base_classes", force: :cascade do |t|
+    t.string "name"
+    t.integer "hit_dice"
+    t.string "proficiencies"
+    t.integer "num_skills"
+    t.string "casting_ability"
+    t.string "armor"
+    t.string "weapons"
+    t.string "tools"
+    t.string "wealth"
+  end
 
   create_table "categories", force: :cascade do |t|
     t.string "category_type"
@@ -21,6 +33,22 @@ ActiveRecord::Schema.define(version: 2022_09_02_155448) do
     t.integer "document_count", default: 0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "items", force: :cascade do |t|
+    t.text "name"
+    t.text "details"
+    t.text "item_type"
+    t.boolean "magic"
+    t.integer "ac"
+    t.float "weight"
+    t.float "value"
+    t.text "damage"
+    t.text "property"
+    t.text "dmg_type"
+    t.text "desc"
+    t.boolean "stealth"
+    t.text "rolls"
   end
 
   create_table "spells", force: :cascade do |t|
@@ -83,6 +111,22 @@ ActiveRecord::Schema.define(version: 2022_09_02_155448) do
     t.string "description"
     t.string "slots"
     t.string "spells"
+  end
+
+  create_table "sub_classes", force: :cascade do |t|
+    t.string "name"
+    t.integer "base_class_id"
+  end
+
+  create_table "traits", force: :cascade do |t|
+    t.text "name"
+    t.text "details"
+    t.boolean "optional"
+    t.integer "class_level"
+    t.string "parent_type"
+    t.integer "parent_id"
+    t.boolean "score_improvement"
+    t.string "spell_slot"
   end
 
 end
