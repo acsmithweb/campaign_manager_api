@@ -14,16 +14,19 @@ class TextWordCounterService
     spellcheck = DungeonDictionary.new
     text_list = {}
     count = 0
-    process_string(text.downcase).split(' ').each{|word|
-      next if word.length < 3
-      corrected_word = spellcheck.corrected_word(word)
-      count += 1
-      if text_list[corrected_word].nil? == false
-        text_list[corrected_word] += 1
-      else
-        text_list[corrected_word] = 1
-      end
-    }
+    processed_strings = process_string(text.downcase)
+    unless processed_strings.nil?
+      processed_strings.split(' ').each{|word|
+        next if word.length < 3
+        corrected_word = spellcheck.corrected_word(word)
+        count += 1
+        if text_list[corrected_word].nil? == false
+          text_list[corrected_word] += 1
+        else
+          text_list[corrected_word] = 1
+        end
+      }
+    end
     text_list = text_list.sort_by {|key, value| value}.reverse.to_h
       text_list.update(text_list) {|key, value|
         {
@@ -42,6 +45,6 @@ class TextWordCounterService
     STOP_WORDS.each{|stop_word|
       string.gsub!(/\b#{stop_word}\b/,' ')
     }
-    return string.strip!
+    return string.squeeze(' ').strip!
   end
 end

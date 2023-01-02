@@ -17,7 +17,7 @@ class Category < ApplicationRecord
       next if key.length < 3
       if self.focused_words.to_h.key?(key) == true
         tf = (value[:term_frequency].to_f * (inverse_document_frequency(key)).to_f).to_f
-        test_hash.store(key, tf) if (tf < 0.02 && tf > 0.005)
+        test_hash.store(key, tf)
       end
     }
     test_hash.to_h
@@ -26,7 +26,7 @@ class Category < ApplicationRecord
   private
 
   def focused_words
-    related_words.collect{|word| word if (word[1][:document_frequency] > document_count/2) && word[0].length > 3 && word[1][:word_count] > 1}.compact
+    related_words.collect{|word| word if word[0].length > 3 && word[1][:word_count] < 4 && word[1][:word_count] > 1 && word[1][:document_frequency] > 4}.compact
   end
 
   def inverse_document_frequency(key)
@@ -49,6 +49,17 @@ class Category < ApplicationRecord
   end
 
   def stat_block_actions(stat_block)
-    return (stat_block.actions.to_s + ' ' + stat_block.abilities.to_s + ' ' + stat_block.legendary_actions.to_s)
+    actions = [
+      stat_block.actions,
+      stat_block&.abilities,
+      stat_block&.legendary_actions,
+      stat_block&.skills,
+      stat_block&.saving_throws,
+      stat_block&.senses,
+      stat_block&.condition_immunities,
+      stat_block&.damage_immunities,
+      stat_block&.vulnerability,
+      stat_block&.spells].map(&:to_s).join(' ').squeeze(' ')
+    return (actions)
   end
 end

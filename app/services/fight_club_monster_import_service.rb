@@ -129,23 +129,23 @@ class FightClubMonsterImportService
   end
 
   def damage_resistance
-    @monster['resist'] unless @monster['resist']
+    @monster['resist'] unless @monster['resist'].nil?
   end
 
   def damage_immunities
-    @monster['immune'] unless @monster['immune']
+    @monster['immune'] unless @monster['immune'].nil?
   end
 
   def condition_immunities
-    @monster['conditionImmune'] unless @monster['conditionImmune']
+    @monster['conditionImmune'] unless @monster['conditionImmune'].nil?
   end
 
   def vulnerability
-    @monster['vulnerable'] unless @monster['vulnerable']
+    @monster['vulnerable'] unless @monster['vulnerable'].nil?
   end
 
   def senses
-    @monster['senses'] unless @monster['senses']
+    @monster['senses'] unless @monster['senses'].nil?
   end
 
   def abilities
