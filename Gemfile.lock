@@ -66,14 +66,11 @@ GEM
       unf (>= 0.0.5, < 1.0.0)
     erubi (1.11.0)
     ffi (1.15.5)
-    ffi-hunspell (0.6.1)
-      ffi (~> 1.0)
-    globalid (1.0.0)
+    globalid (1.0.1)
       activesupport (>= 5.0)
     http-accept (1.7.0)
     http-cookie (1.0.5)
       domain_name (~> 0.5)
-    hunspell (1.1.0)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
     jaro_winkler (1.5.4)
@@ -94,7 +91,7 @@ GEM
     mini_magick (4.11.0)
     mini_mime (1.1.2)
     mini_portile2 (2.8.0)
-    minitest (5.16.3)
+    minitest (5.17.0)
     msgpack (1.6.0)
     netrc (0.11.0)
     nio4r (2.5.8)
@@ -179,8 +176,6 @@ PLATFORMS
 DEPENDENCIES
   bootsnap (>= 1.4.2)
   byebug
-  ffi-hunspell
-  hunspell
   jaro_winkler
   listen (>= 3.0.5, < 3.2)
   mini_magick
