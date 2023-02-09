@@ -96,19 +96,23 @@ class StatBlock < ApplicationRecord
     return stat_hash
   end
 
-  def skills_to_json(string)
-    skills = string.split(',')
+  def skills_to_json
     skill_array = []
-    skills.each{|skill|
-      split_skill = skill.split(' +')
-      if skill.match('passive perception:')
-        skill_array << {split_skill[0].downcase.strip => split_skill[1].split(' ')[0]} unless split_skill[1].nil?
-        skill_array << {'passive_perception:' => split_skill.last.split(' ')[3]}
+    self.skills.split(', ').each{|skill|
+	puts skill
+      if skill.match(/passive/)
+		passive_split = skill.split('passive perception: ')
+		split_skill = skill.split(' +')
+		skill_array << [split_skill[0].downcase.strip, split_skill[1].strip]
+        skill_array << ['passive_perception', passive_split.last]
       else
-        skill_array << {split_skill[0].downcase.strip => split_skill[1].strip}
+		split_skill = skill.split(' +')
+        skill_array << [split_skill[0].downcase.strip, split_skill[1].strip]
       end
+	 puts skill_array
     }
   end
+  
 
   def parsed_traits
     traits_array = []

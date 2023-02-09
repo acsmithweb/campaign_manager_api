@@ -24,7 +24,6 @@ class StatBlocksController < ApplicationController
   # POST /stat_blocks
   def create
     @stat_block = StatBlock.new(stat_block_params)
-
     if @stat_block.save
       render json: @stat_block, status: :created, location: @stat_block
     else
@@ -55,23 +54,23 @@ class StatBlocksController < ApplicationController
 
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_stat_block
-      StatBlock.exists?(id: params[:id]) ? (@stat_block = StatBlock.find(params[:id])) : stat_block_not_found_error
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_stat_block
+    StatBlock.exists?(id: params[:id]) ? (@stat_block = StatBlock.find(params[:id])) : stat_block_not_found_error
+  end
 
-    # Only allow a trusted parameter "white list" through.
-    def stat_block_params
-      params.permit(:name, :armor_class, :hit_points, :size, :hit_dice, :damage_immunities, :vulnerability, :speed, :str, :dex, :con, :int, :wis, :cha, :saving_throws, :skills, :damage_resistance, :condition_immunities, :damage_immunities, :senses, :languages, :challenge_rating, :experience_points, :abilities, :actions, :legendary_actions, :creature_type, :alignment, :vulnerability)
-    end
+  # Only allow a trusted parameter "white list" through.
+  def stat_block_params
+    params.permit(:name, :armor_class, :hit_points, :size, :hit_dice, :damage_immunities, :vulnerability, :speed, :str, :dex, :con, :int, :wis, :cha, :saving_throws, :skills, :damage_resistance, :condition_immunities, :damage_immunities, :senses, :languages, :challenge_rating, :experience_points, :abilities, :actions, :legendary_actions, :creature_type, :alignment, :vulnerability)
+  end
 
-    def stat_block_not_found_error
-      render json: {
-        error:
-          {
-            status: '204',
-            message: 'Resource Not Found'
-          }
-      }
-    end
+  def stat_block_not_found_error
+    render json: {
+      error:
+        {
+          status: '204',
+          message: 'Resource Not Found'
+        }
+    }
+  end
 end
