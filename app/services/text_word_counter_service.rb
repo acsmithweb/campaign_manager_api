@@ -1,5 +1,33 @@
 class TextWordCounterService
-  STOP_WORDS = ['with','has','class','weapon','target','hit','or', 'a','it','points',"can't",'is','the','to','its','of','and','is','can','if','must','each','that','in','for','makes','as','an','on','by','at','this','form','foot','be','use','magically','from','choice','up','which','also','way','her','used','into','she','are','away','out','to']
+  STOP_WORDS = stopwords = [
+    # Common English stopwords (customize as needed)
+    "a", "an", "the", "in", "on", "at", "to", "by", "with", "and", "or", "of", "for",
+    "about", "after", "all", "also", "an", "and", "are", "as", "at", "be", "because",
+    "been", "but", "by", "can", "could", "did", "do", "does", "even", "for", "from",
+    "had", "has", "have", "if", "in", "into", "is", "it", "its", "just", "more",
+    "most", "no", "not", "now", "of", "on", "only", "or", "our", "out", "over",
+    "so", "some", "such", "than", "that", "the", "their", "then", "there", "these",
+    "they", "this", "those", "through", "to", "up", "very", "was", "we", "well",
+    "were", "what", "when", "where", "which", "while", "who", "will", "with",
+    "would", "you", "your", "its", "any", "has", "such", "when", "that", "over",
+
+    # D&D-specific stopwords
+    "hit", "points", "hp", "armor", "class", "ac", "speed", "ft", "feet", "ft.", "feet.",
+    "challenge", "rating", "cr", "alignment", "alignment:", "size", "size:", "type", "type:",
+    "senses", "senses:", "languages", "languages:", "immune", "immunities", "immunities:",
+    "resist", "resistances", "resistances:", "vulnerable", "vulnerabilities", "vulnerabilities:",
+    "actions", "abilities", "legendary", "legendary_actions", "skills", "saving", "throws",
+    "condition", "condition_immunities", "damage", "damages", "damage immunities",
+    "damage_resistances", "damage_vulnerabilities", "damage_vulnerabilities:", "damage_resistances:",
+    "traits", "trait", "trait:", "senses:", "radius",
+
+    # Common combat-related words
+    "attack", "attacks", "weapon", "weapons", "damage", "bonus",
+    "bonus:", "hit:", "hit bonus", "damage bonus", "reach", "reach:", "reach ft",
+    "reach feet", "reach ft.", "reach feet.", "ft.", "feet.", "ft", "feet", "reach:",
+    "range:", "range ft", "range feet", "range ft.", "range feet.",
+  ]
+
   COMPRESS_FEET = /(\d+)\s(ft)/
   COMPRESS_SPELL_LEVEL = /(1st|2nd|3rd|4th|5th|6th|7th|8th|9th)\s(level)/
   COMPRESS_SPELL_SLOT = /(\d+)\s(slots?)/

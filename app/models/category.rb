@@ -23,14 +23,52 @@ class Category < ApplicationRecord
     test_hash.to_h
   end
 
+  def calculate_similarity(stat_block)
+    array1 = stat_block.calculate_tf_idf
+    array2 = self.create_vector
+    dot_product = 0
+    magnitude1 = 0
+    magnitude2 = 0
+
+    array1.each do |pair1|
+      term1, value1 = pair1
+      pair2 = array2.find { |pair| pair[0] == term1 }
+
+      if pair2
+        term2, value2 = pair2
+
+        dot_product += (value1 * value2)
+
+        magnitude1 += (value1**2)
+        magnitude2 += (value2**2)
+      end
+    end
+
+    cosine_similarity = dot_product / (Math.sqrt(magnitude1) * Math.sqrt(magnitude2))
+  end
+
   private
 
+  def create_vector
+    tfidf_vector = []
+    self.focused_words.each do |term, score|
+      tfidf_vector << [term, score[:term_frequency]]
+    end
+    return tfidf_vector
+  end
+
   def focused_words
-    related_words.collect{|word| word if word[0].length > 3 && word[1][:word_count] < 4 && word[1][:word_count] > 1 && word[1][:document_frequency] > 4}.compact
+    related_words.collect{|word| word if word[0].length > 3 && word[1][:word_count] < 6 && word[1][:document_frequency] > 4}.compact
   end
 
   def inverse_document_frequency(key)
-    Math.log((1 + self.document_count.to_f) / (1 + self.related_words[key][:document_frequency].to_f)) + 1
+    document_frequency = self.related_words[key][:document_frequency].to_f
+    total_documents = self.document_count.to_f
+    if document_frequency == 0
+      return Math.log(total_documents + 1)
+    else
+      return Math.log(total_documents / document_frequency)
+    end
   end
 
   def document_frequency(breakdown)

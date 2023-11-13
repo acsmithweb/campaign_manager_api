@@ -17,14 +17,18 @@ class WorkbooksController < ApplicationController
   end
 
   def create
-    @workbook = Workbook.create(name: params[:name], user_id: params[:user_id], notes: params[:notes])
-    Spell.where(id: params[:bookmarkedSpells]&.map(&:to_i)).each do |spell|
+    @workbook = Workbook.create(name: params[:props][:name], user_id: params[:user_id], notes: params[:notes])
+    puts params
+    Spell.where(id: params[:props][:bookmarkedSpells]&.map(&:to_i)).each do |spell|
+      puts spell.inspect
       @workbook.add_record(spell)
     end
-    Item.where(id: params[:bookmarkedItems]&.map(&:to_i)).each do |item|
+    Item.where(id: params[:props][:bookmarkedItems]&.map(&:to_i)).each do |item|
+      puts item.inspect
       @workbook.add_record(item)
     end
-    StatBlock.where(id: params[:bookmarkedCreatures]&.map(&:to_i)).each do |stat_block|
+    StatBlock.where(id: params[:props][:bookmarkedCreatures]&.map(&:to_i)).each do |stat_block|
+      puts stat_block.inspect
       @workbook.add_record(stat_block)
     end
     if @workbook.id.present?
