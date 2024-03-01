@@ -50,6 +50,7 @@ class ImageToCreatureService
   end
 
   def self.clean_results(tess_results)
+    # Here we can integrate with chat GPT to correct any graphical issues that may occur
     dict = DungeonDictionary.new
     tess_results.each do |segment|
       segment.gsub!(/[[:punct:]&&[^+^]&&[^\/]]/,'')

@@ -11,21 +11,26 @@ class Category < ApplicationRecord
     self.save
   end
 
-  def calculate_tf_idf(stat_block)
+  def calculate_tf_idf
     test_hash = {}
-    TextWordCounterService.execute(stat_block_actions(stat_block)).each {|key, value|
+    words = self.related_words
+    total_words = words.values.map { |v| v[:term_frequency] }.sum
+
+    words.each do |key, value|
       next if key.length < 3
-      if self.focused_words.to_h.key?(key) == true
-        tf = (value[:term_frequency].to_f * (inverse_document_frequency(key)).to_f).to_f
-        test_hash.store(key, tf)
+      if self.related_words.to_h.key?(key) == true
+        tf = value[:term_frequency].to_f / total_words.to_f
+        idf = Math.log(self.document_count.to_f / (self.related_words[key][:document_frequency].to_f + 1))
+        test_hash.store(key, tf*idf)
       end
-    }
+    end
     test_hash.to_h
   end
 
+  #compares the two tf_idf scores closer to 1 means more similar 0 is less similar
   def calculate_similarity(stat_block)
     array1 = stat_block.calculate_tf_idf
-    array2 = self.create_vector
+    array2 = self.calculate_tf_idf
     dot_product = 0
     magnitude1 = 0
     magnitude2 = 0
@@ -38,7 +43,6 @@ class Category < ApplicationRecord
         term2, value2 = pair2
 
         dot_product += (value1 * value2)
-
         magnitude1 += (value1**2)
         magnitude2 += (value2**2)
       end
@@ -48,28 +52,6 @@ class Category < ApplicationRecord
   end
 
   private
-
-  def create_vector
-    tfidf_vector = []
-    self.focused_words.each do |term, score|
-      tfidf_vector << [term, score[:term_frequency]]
-    end
-    return tfidf_vector
-  end
-
-  def focused_words
-    related_words.collect{|word| word if word[0].length > 3 && word[1][:word_count] < 6 && word[1][:document_frequency] > 4}.compact
-  end
-
-  def inverse_document_frequency(key)
-    document_frequency = self.related_words[key][:document_frequency].to_f
-    total_documents = self.document_count.to_f
-    if document_frequency == 0
-      return Math.log(total_documents + 1)
-    else
-      return Math.log(total_documents / document_frequency)
-    end
-  end
 
   def document_frequency(breakdown)
     related_words_hash = self.related_words

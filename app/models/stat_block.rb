@@ -5,7 +5,7 @@ class StatBlock < ApplicationRecord
   has_many :workbooks, through: :workbook_records
 
   pg_search_scope :search,
-    against: [:name, :actions, :abilities, :skills, :size, :creature_type, :legendary_actions, :languages],
+    against: [:name, :actions, :abilities, :skills, :size, :creature_type, :legendary_actions, :languages, :spells],
     using: {
       tsearch: {
         prefix: true
@@ -33,6 +33,19 @@ class StatBlock < ApplicationRecord
   validates :cha, presence: true, numericality: true
   validates :challenge_rating, presence: true, numericality: true
   validates :experience_points, presence: true, numericality: true
+
+  def get_category_breakdown
+    categories = []
+    Category.all.each{|cat|
+      calc = cat.calculate_similarity(self);
+      next if calc.to_f.nan?;
+      categories << {cat_name: cat.category_type, cat_score: calc}
+    }
+    puts categories
+    categories&.sort_by{
+      |cat|-cat[:cat_score]
+    }
+  end
 
   def to_obsidian_json
     {
@@ -285,6 +298,26 @@ class StatBlock < ApplicationRecord
       vector_array << [key, tf]
     }
     vector_array
+  end
+
+  def to_markdown
+    data = JSON.parse(self.to_json)
+
+    data.delete('id')
+    data.delete('created_at')
+    data.delete('updated_at')
+
+    markdown = ""
+
+    data.each do |key, value|
+      if value.is_a? String
+        markdown += "## #{key.capitalize}\n\n#{value}\n\n"
+      elsif value.is_a? Integer
+        markdown += "- **#{key.capitalize}:** #{value}\n"
+      end
+    end
+
+    markdown
   end
 
   def stat_block_actions

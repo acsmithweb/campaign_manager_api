@@ -15,6 +15,4 @@ class Categorizer::CategoryOrchestrator
 
     return selected_categories
   end
-
-  
 end

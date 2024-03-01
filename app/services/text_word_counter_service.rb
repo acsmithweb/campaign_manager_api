@@ -9,23 +9,8 @@ class TextWordCounterService
     "so", "some", "such", "than", "that", "the", "their", "then", "there", "these",
     "they", "this", "those", "through", "to", "up", "very", "was", "we", "well",
     "were", "what", "when", "where", "which", "while", "who", "will", "with",
-    "would", "you", "your", "its", "any", "has", "such", "when", "that", "over",
-
-    # D&D-specific stopwords
-    "hit", "points", "hp", "armor", "class", "ac", "speed", "ft", "feet", "ft.", "feet.",
-    "challenge", "rating", "cr", "alignment", "alignment:", "size", "size:", "type", "type:",
-    "senses", "senses:", "languages", "languages:", "immune", "immunities", "immunities:",
-    "resist", "resistances", "resistances:", "vulnerable", "vulnerabilities", "vulnerabilities:",
-    "actions", "abilities", "legendary", "legendary_actions", "skills", "saving", "throws",
-    "condition", "condition_immunities", "damage", "damages", "damage immunities",
-    "damage_resistances", "damage_vulnerabilities", "damage_vulnerabilities:", "damage_resistances:",
-    "traits", "trait", "trait:", "senses:", "radius",
-
-    # Common combat-related words
-    "attack", "attacks", "weapon", "weapons", "damage", "bonus",
-    "bonus:", "hit:", "hit bonus", "damage bonus", "reach", "reach:", "reach ft",
-    "reach feet", "reach ft.", "reach feet.", "ft.", "feet.", "ft", "feet", "reach:",
-    "range:", "range ft", "range feet", "range ft.", "range feet.",
+    "would", "you", "your", "its", "any", "has", "such", "when", "that", "over", "other",
+    "until"
   ]
 
   COMPRESS_FEET = /(\d+)\s(ft)/
@@ -73,6 +58,6 @@ class TextWordCounterService
     STOP_WORDS.each{|stop_word|
       string.gsub!(/\b#{stop_word}\b/,' ')
     }
-    return string.squeeze(' ').strip!
+    return string.squeeze(' ')
   end
 end

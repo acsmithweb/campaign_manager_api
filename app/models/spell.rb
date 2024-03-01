@@ -20,4 +20,24 @@ class Spell < ApplicationRecord
   validates :casting_time, presence: true
   validates :level, presence: true
   validates :school, presence: true
+
+  def to_markdown
+    data = JSON.parse(self.to_json)
+
+    data.delete('id')
+    data.delete('created_at')
+    data.delete('updated_at')
+
+    markdown = ""
+
+    data.each do |key, value|
+      if value.is_a? String
+        markdown += "## #{key.capitalize}\n\n#{value}\n\n"
+      elsif value.is_a? Integer
+        markdown += "- **#{key.capitalize}:** #{value}\n"
+      end
+    end
+
+    markdown
+  end
 end
