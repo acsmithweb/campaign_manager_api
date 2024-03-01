@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_09_24_175449) do
+ActiveRecord::Schema.define(version: 2022_12_22_150209) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -127,6 +127,19 @@ ActiveRecord::Schema.define(version: 2022_09_24_175449) do
     t.integer "parent_id"
     t.boolean "score_improvement"
     t.string "spell_slot"
+  end
+
+  create_table "workbook_records", force: :cascade do |t|
+    t.string "record_type"
+    t.bigint "record_id"
+    t.integer "workbook_id"
+    t.index ["record_type", "record_id"], name: "index_workbook_records_on_record_type_and_record_id"
+  end
+
+  create_table "workbooks", force: :cascade do |t|
+    t.string "name"
+    t.text "notes"
+    t.integer "user_id"
   end
 
 end

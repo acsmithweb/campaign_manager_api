@@ -31,44 +31,53 @@ class FightClubClassImportService
     if !@trait_info.key?('slots')
       if !@trait_info['feature'].kind_of?(Array) && @trait_info['feature']['name'].present? && !feature['name'].kind_of?(Array)
         if (@trait_info['feature']['name'].match('Starting') || @trait_info['feature']['name'].match('Multiclass'))
-          puts 'Starting feature/Multiclass feature'
           trait_parent_type = 'base_class'
           name = @trait_info['feature']['name']
           parent_id = @base_class.id
+        elsif feature['name'].split(':').count < 2
+          trait_parent_type = 'base_class'
+          name = feature['name']
+          parent_id = @base_class.id
+        else
+          trait_parent_type = 'sub_class'
+          name = feature['name'].split(':').last
+          sub_class_name = feature['name'].split(':').first
+          sub_class = SubClass.find_or_create_by(name: sub_class_name, base_class_id: @base_class.id)
+          parent_id = sub_class.id
         end
       elsif @trait_info['feature'].kind_of?(Array)
-        if feature['optional'].present? && @trait_info['feature'].first['name'] == feature['name']
-          puts 'sub class with multiple options'
-          trait_parent_type = 'sub_class'
-          name = @trait_info['feature']['name'].nil? ? feature['name'] : @trait_info['feature']['name']
-        elsif feature['optional'].present? && @trait_info['feature'].first['name'] != feature['name']
-          puts 'trait options'
+        if feature['optional'].present? && @trait_info['feature'].first['name'] == feature['name'] && Trait.where(name: feature['name'].split(':')[0]).first.present?
           trait_parent_type = 'trait'
           name = feature['name']
-          parent_id = Trait.where(name: name).first.id
+          parent_id = Trait.where(name: name.split(':')[0]).first.id
+        elsif feature['optional'].present? && feature['name'].match(@trait_info['feature'].first['name'])
+          trait_parent_type = 'trait'
+          name = feature['name'].split(':').last
+          parent_id = Trait.where(name: feature['name'].split(':')[0]).first.id
         else
-          puts 'optional catch all'
           name = feature['name']
-          trait_parent_type = 'catch_all'
+          trait_parent_type = 'base_class'
+          parent_id = @base_class.id
         end
       elsif feature['name'].kind_of?(Array)
-        puts 'subclass trait'
         trait_parent_type = 'sub_class'
-        name = feature['name'].join('/n')
+        sub_class_name = feature['name'].first.split(':').first
+        sub_class = SubClass.find_or_create_by(name: sub_class_name, base_class_id: @base_class.id)
+        name = feature['name'].last.split(':')[1]
+        parent_id = sub_class.id
       else
-        puts 'catch all'
         trait_parent_type = 'base_class'
         name = @trait_info['feature']['name'].nil? ? feature['name'] : @trait_info['feature']['name']
         parent_id = @base_class.id
       end
     end
     trait_info_attributes = {
-      name: name,
+      name: name.strip,
       details: trait_details(feature),
       optional: optional(feature),
       class_level: @trait_info['level'],
       parent_type: trait_parent_type,
-      parent_id: @base_class.id,
+      parent_id: parent_id,
       score_improvement: @trait_info['scoreImprovement'].present?,
       spell_slot: spell_slots(feature)
     }

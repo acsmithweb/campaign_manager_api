@@ -1,0 +1,105 @@
+10.times do
+ Workbook.last.add_record(Spell.last(Random.new().rand(0..2181)).first)
+end
+
+Windows need better seperation => when off darkmode it looks better
+give the monster window some top padding and have all table workbook_records
+sit under the workbook title (and table headers >.<)
+
+need a better color pallete.
+Entire UI looks like a VB app
+
+Seperate the compendium from the workbench (visually)
+^ it's your darkmode plugin -_-
+
+FIGURE OUT HOW TO OPEN/CLOSE workbench drawer.
+It takes up a good 15% of the page.
+
+write something to parse DC stat from description
+
+in the future allow user to select which fields to show on
+workbook table.
+
+retrieve a DC and it's saving throw
+
+Regexp.new('(DC\s\d\d\s*\S+)', Regexp::IGNORECASE)
+
+StatBlock.stats_table.select{|key, hash| hash[:ac] == 16}
+
+stats_table = {
+  '0':,
+
+}
+
+
+{"props"=>{"name"=>nil, "bookmarkedSpells"=>["256", "344", "386", "183", "45", "24", "503", "87", "174", "145", "107", "428", "438", "509", "284", "168"], "bookmarkedCreatures"=>["229", "275", "421", "209", "417", "55", "1216", "1215", "1180"], "bookmarkedItems"=>[]}, "workbook"=>{}}
+
+
+StatBlock.first(20).each{|block| block.actions&.split(/\n/).each{|line| line.match(/\d+ \(.*?\)/)&.to_a&.each{|action| puts action&.split(' (')&.first}}}
+block.actions&.split(/\n/).each{|line| line.match(/\d+ \(.*?\)/)&.to_a&.each{|action| puts action&.split(' (')&.first}}
+
+/makes\s+(\w+(?:\s+\w+)*)\s+attacks/
+
+
+
+/attacks(?:\s+twice)?[\s:]+(\w+)/i
+
+test_matches = [
+  /makes\s+(\w+)\s+(?:\w+\s+)*attack/i,
+  /attacks\s+(\w+)\s+with/i,
+  /makes\s+(\w+)\b\s*attack/,
+]
+
+StatBlock.search('multiattack').each{|block| }
+
+StatBlock.search('multiattack').to_a.each{|block|
+   str = block.actions
+   test_matches.each{|regex|
+    number_of_attacks = str.match(regex)
+    break if number_of_attacks.present? && number_of_attacks[1].match(/one|two|twice|three|four|five|six|seven|eight|nine|ten/)
+   }
+   puts block.name
+   details = block.actions.scan(/(\w+)\s+with its\s+(\w+)/i).inspect
+   details = block.actions.scan(/makes\s+(.*?)\s+attacks/i).inspect if details.empty?
+   puts details
+   puts number_of_attacks[1] if number_of_attacks.present? && number_of_attacks[1].match(/one|two|twice|three|four|five|six|seven|eight|nine|ten/)
+   puts 'Special Condition' if number_of_attacks.present? && !number_of_attacks[1].match(/one|two|twice|three|four|five|six|seven|eight|nine|ten/)
+   puts '------------------------------'
+}
+
+Multiattack: The wight attacks twice with Grave Bolt.\nGrave Bolt: Ranged Spell Attack: +5 to hit, range 120 ft., one target. 7 (1d8 + 3) necrotic damage.
+
+
+StatBlock.search('multiattack').to_a.each{|block|
+   str = block.actions
+   puts block.name
+   number_of_attacks = str.match(/Multiattack:\s+\w+\s+makes\s+(\w+)\s+(?:attacks|attack(?:s)?)/)
+   number_of_attacks = number_of_attacks[1] if number_of_attacks
+   puts number_of_attacks
+}
+
+StatBlock where primary stat is Dex
+  StatBlock.where("dex - greatest(str, con, int, wis, cha) > 2")
+
+StatBlock where two primary stats are present
+  StatBlock.where("(dex - con).abs < 2 AND str < 12")
+
+StatBlock.where("str > greatest(dex,con,int,wis,cha)").where("(dex-con) < 2 AND (dex < LEAST(str,con)) OR (con < LEAST(dex,str))")
+
+tests = StatBlock.where("str > greatest(dex,con,int,wis,cha)").where("str - dex > 3 AND str - con > 3").where("(dex-con) < 2 AND (dex < LEAST(str,con)) OR (con < LEAST(dex,str))")
+
+
+Scuffler (M): Primary stat: STR. Lowest stat: DEX or CON. Physical role. Melee role. Low AC and HP.
+Striker ®: Primary stat: STR. Lowest stat: DEX or CON. Physical role. Ranged role. Low AC and HP.
+Sneak (M): Primary stat: DEX. Lowest stat: STR or CON. Physical role. Melee role. High AC, low HP.
+Sniper ®: Primary stat: DEX. Lowest stat: STR or CON. Physical role. Ranged role. High AC, low HP.
+Stalwart (M): Primary stat: CON. Lowest stat: STR or DEX. Physical role. Melee role. High HP, low AC.
+Suppressor ®: Primary stat: CON. Lowest stat: STR or DEX. Physical role. Ranged role. High HP, low AC.
+Shocktroop (M): Primary stats: STR and DEX. Lowest stat: CON. Physical role. Melee role. High AC and damage, low HP.
+Slinger ®: Primary stats: STR and DEX. Lowest stat: CON. Physical role. Ranged role. High AC and damage, low HP.
+Slugger (M): Primary stats: STR and CON. Lowest stat: DEX. Physical role. Melee role. High HP and damage, low AC.
+Shatterer ®: Primary stats: STR and CON. Lowest stat: DEX. Physical role. Ranged role. High HP and damage, low AC.
+Scrapper (M): Primary stats: DEX and CON. Lowest stat: STR. Physical role. Melee role. High AC and HP, low damage.
+Skirmisher ®: Primary stats: DEX and CON. Lowest stat: STR. Physical role. Ranged role. High AC and HP, low damage.
+Slayer (M): Primary stats: STR, DEX, and CON. No lowest stat. Physical role. Melee role. High AC, HP, and damage.
+Siegemaster ®: Primary stats: STR, DEX, and CON. No lowest stat. Physical role.Ranged role.High AC, HP, and damage.

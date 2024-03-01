@@ -11,27 +11,47 @@ class Category < ApplicationRecord
     self.save
   end
 
-  def calculate_tf_idf(stat_block)
+  def calculate_tf_idf
     test_hash = {}
-    TextWordCounterService.execute(stat_block_actions(stat_block)).each {|key, value|
+    words = self.related_words
+    total_words = words.values.map { |v| v[:term_frequency] }.sum
+
+    words.each do |key, value|
       next if key.length < 3
-      if self.focused_words.to_h.key?(key) == true
-        tf = (value[:term_frequency].to_f * (inverse_document_frequency(key)).to_f).to_f
-        test_hash.store(key, tf) if (tf < 0.02 && tf > 0.005)
+      if self.related_words.to_h.key?(key) == true
+        tf = value[:term_frequency].to_f / total_words.to_f
+        idf = Math.log(self.document_count.to_f / (self.related_words[key][:document_frequency].to_f + 1))
+        test_hash.store(key, tf*idf)
       end
-    }
+    end
     test_hash.to_h
   end
 
+  #compares the two tf_idf scores closer to 1 means more similar 0 is less similar
+  def calculate_similarity(stat_block)
+    array1 = stat_block.calculate_tf_idf
+    array2 = self.calculate_tf_idf
+    dot_product = 0
+    magnitude1 = 0
+    magnitude2 = 0
+
+    array1.each do |pair1|
+      term1, value1 = pair1
+      pair2 = array2.find { |pair| pair[0] == term1 }
+
+      if pair2
+        term2, value2 = pair2
+
+        dot_product += (value1 * value2)
+        magnitude1 += (value1**2)
+        magnitude2 += (value2**2)
+      end
+    end
+
+    cosine_similarity = dot_product / (Math.sqrt(magnitude1) * Math.sqrt(magnitude2))
+  end
+
   private
-
-  def focused_words
-    related_words.collect{|word| word if (word[1][:document_frequency] > document_count/2) && word[0].length > 3 && word[1][:word_count] > 1}.compact
-  end
-
-  def inverse_document_frequency(key)
-    Math.log((1 + self.document_count.to_f) / (1 + self.related_words[key][:document_frequency].to_f)) + 1
-  end
 
   def document_frequency(breakdown)
     related_words_hash = self.related_words
@@ -49,6 +69,17 @@ class Category < ApplicationRecord
   end
 
   def stat_block_actions(stat_block)
-    return (stat_block.actions.to_s + ' ' + stat_block.abilities.to_s + ' ' + stat_block.legendary_actions.to_s)
+    actions = [
+      stat_block.actions,
+      stat_block&.abilities,
+      stat_block&.legendary_actions,
+      stat_block&.skills,
+      stat_block&.saving_throws,
+      stat_block&.senses,
+      stat_block&.condition_immunities,
+      stat_block&.damage_immunities,
+      stat_block&.vulnerability,
+      stat_block&.spells].map(&:to_s).join(' ').squeeze(' ')
+    return (actions)
   end
 end
