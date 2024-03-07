@@ -1,20 +1,6 @@
 class ChatProfiles::DmQuickAssist
-  attr_accessor :client
 
   ENCOUNTER_PROMPT = "You are a DM reference tool that will accurately and concisely provide me information that I request related to the information I provide you please strip out anything in square brackets in your re."
-
-  def initialize(api_key,context)
-    @client = Facades::GeminiApiFacade.new(api_key)
-    add_context(context)
-    client.chat("#{ENCOUNTER_PROMPT} #{context}")
-    client.recent_response
-  end
-
-  def chat(conversation)
-    add_context(conversation)
-    client.chat(conversation)
-    client.recent_response
-  end
 
   private
 

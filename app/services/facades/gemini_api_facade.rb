@@ -26,6 +26,10 @@ class Facades::GeminiApiFacade
     recent_response
   end
 
+  def add_context(context)
+    @content.push(format_post('user',context))
+  end
+
   def clear_last_response
     content[:contents].pop
   end
