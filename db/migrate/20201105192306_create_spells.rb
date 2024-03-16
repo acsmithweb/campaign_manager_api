@@ -13,8 +13,7 @@ class CreateSpells < ActiveRecord::Migration[6.0]
       t.string :casting_time
       t.integer :level
       t.string :attack_type
-      t.text :heal_at_slot_level
-      t.text :damage_at_slot_level
+      t.text :effect_at_slot_level
       t.text :damage_at_character_level
       t.string :damage_type
       t.string :school

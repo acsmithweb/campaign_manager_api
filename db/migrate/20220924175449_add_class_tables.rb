@@ -13,7 +13,7 @@ class AddClassTables < ActiveRecord::Migration[6.0]
     end
     create_table :sub_classes do |t|
       t.string :name
-      t.integer :base_class_id
+      t.integer :parent_id
     end
     create_table :traits do |t|
       t.text :name
