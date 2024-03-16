@@ -180,7 +180,7 @@ DEPENDENCIES
   bootsnap (>= 1.4.2)
   byebug
   ffi-hunspell
-  hunspell
+  hunspell (~> 1.1.0)
   jaro_winkler
   listen (>= 3.0.5, < 3.2)
   mini_magick
