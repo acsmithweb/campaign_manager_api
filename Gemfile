@@ -14,7 +14,7 @@ gem 'rack-cors'
 gem 'rest-client'
 gem 'rtesseract'
 gem 'mini_magick'
-gem 'hunspell'
+gem 'hunspell', '~> 1.1.0'
 gem 'ffi-hunspell'
 gem 'jaro_winkler'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder

@@ -64,8 +64,7 @@ ActiveRecord::Schema.define(version: 2022_12_22_150209) do
     t.string "casting_time"
     t.integer "level"
     t.string "attack_type"
-    t.text "heal_at_slot_level"
-    t.text "damage_at_slot_level"
+    t.text "effect_at_slot_level"
     t.text "damage_at_character_level"
     t.string "damage_type"
     t.string "school"
@@ -115,7 +114,7 @@ ActiveRecord::Schema.define(version: 2022_12_22_150209) do
 
   create_table "sub_classes", force: :cascade do |t|
     t.string "name"
-    t.integer "base_class_id"
+    t.integer "parent_id"
   end
 
   create_table "traits", force: :cascade do |t|
