@@ -38,6 +38,6 @@ class Spell < ApplicationRecord
       end
     end
 
-    markdown
+    return markdown
   end
 end

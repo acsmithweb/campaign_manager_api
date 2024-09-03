@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  post '/chat', action: :chat, controller: 'chat_client'
   resources :workbooks
   delete 'workbooks_destroy', to: 'workbooks#bulk_destroy'
   resources :spells
