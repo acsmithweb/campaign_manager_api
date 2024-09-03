@@ -1,6 +1,6 @@
-class ChatProfiles::DmQuickAssist
+class ChatProfiles::DmQuickAssist < ChatProfiles::BaseProfile
 
-  ENCOUNTER_PROMPT = "You are a DM reference tool that will accurately and concisely provide me information that I request related to the information I provide you please strip out anything in square brackets in your re."
+  ENCOUNTER_PROMPT = "You are a DM reference tool that will accurately and concisely provide me information that I request related to the information I provide you."
 
   private
 
@@ -14,9 +14,9 @@ class ChatProfiles::DmQuickAssist
       when 'creature'
         model = StatBlock
       when 'item','spell'
-        model = words[0]&.constantize
+        model = words[0]&.capitalize.constantize
       end
-      context << model&.find_by_name(words[1].titleize)&.to_markdown
+      context << "|markdown entry: #{model&.find_by_name(words[1].titleize)&.to_markdown}"
     else
       context
     end

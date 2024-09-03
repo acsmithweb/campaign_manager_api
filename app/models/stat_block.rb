@@ -317,7 +317,7 @@ class StatBlock < ApplicationRecord
       end
     end
 
-    markdown
+    return markdown
   end
 
   def stat_block_actions

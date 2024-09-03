@@ -29,6 +29,6 @@ class Item < ApplicationRecord
       end
     end
 
-    markdown
+    return markdown
   end
 end
