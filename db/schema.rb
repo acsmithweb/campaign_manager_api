@@ -28,9 +28,11 @@ ActiveRecord::Schema.define(version: 2022_12_22_150209) do
   end
 
   create_table "categories", force: :cascade do |t|
-    t.string "category_type"
+    t.string "category_name"
     t.text "related_words"
     t.integer "document_count", default: 0
+    t.string "document_name"
+    t.string "type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

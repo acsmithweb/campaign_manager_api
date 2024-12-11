@@ -12,7 +12,7 @@ Please request any relevant information you may need before answering the questi
     if match_data
       match_data.each do |match|
         find_file = "/#{match}.md"
-        record = Dir.glob("/home/mariochase/Documents/OrlaCampaign/**/*").select{|file| file.match(/#{Regexp.escape(find_file)}/i)}.last
+        record = Dir.glob("/shared_hdd/My Drive/Dnd Stuff/Campaigns/CampaignNotes/OrlaCampaign/**/*").select{|file| file.match(/#{Regexp.escape(find_file)}/i)}.last
         file = URI.unescape(File.read(record))
         context << "The following is additional context for #{match}. #{file}"
       end
