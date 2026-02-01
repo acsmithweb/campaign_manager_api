@@ -6,7 +6,7 @@ class ChatProfiles::BaseProfile
   def initialize(api_key,context)
     @client = Facades::GeminiApiFacade.new(api_key)
     add_context(context)
-    client.chat("#{context} #{ENCOUNTER_PROMPT}")
+    client.chat("#{ENCOUNTER_PROMPT} #{context}")
     client.recent_response
   end
 

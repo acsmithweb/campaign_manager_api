@@ -35,7 +35,7 @@ class DocumentCategoryTrainer
 
     headers.each do |header|
       level = header[/^#+/]&.length
-      header_content = text[header_num]
+      header_content = "#{header} #{text[header_num]}"
       next if level.nil? || level == 0
       header_num += 1
 

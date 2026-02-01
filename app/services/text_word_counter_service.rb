@@ -1,4 +1,8 @@
 class TextWordCounterService
+  require "lemmatizer"
+
+  LEM = Lemmatizer.new
+
   STOP_WORDS = stopwords = [
     # Common English stopwords (customize as needed)
     "a", "an", "the", "in", "on", "at", "to", "by", "with", "and", "or", "of", "for",
@@ -31,7 +35,7 @@ class TextWordCounterService
     unless processed_strings.nil?
       processed_strings.split(' ').each{|word|
         next if word.length < 3
-        corrected_word = spellcheck.corrected_word(word)
+        corrected_word = LEM.lemma(spellcheck.corrected_word(word))
         count += 1
         if text_list[corrected_word].nil? == false
           text_list[corrected_word] += 1
@@ -44,7 +48,7 @@ class TextWordCounterService
       text_list.update(text_list) {|key, value|
         {
           word_count: value.to_i,
-          term_frequency: (value.to_f/count.to_f).to_f
+          term_frequency: ((value.to_f/count.to_f).to_f)
         }
       }
   end

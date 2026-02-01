@@ -1,10 +1,14 @@
 class RagCategory < Category
   DOCUMENT_SOURCE = "/shared_hdd/My Drive/Dnd Stuff/Campaigns/CampaignNotes/OrlaCampaign"
 
+  attr_accessor :source_text
+
   def retrieve_source_text
     contents = self.retrieve_file
-    parsed_source = contents.split(/\n#+\s/).reject { |c| c.empty? }.map{|c| strip_file_links(c.downcase.strip)}
-    category_source_text = parsed_source.map{|c| c if c.downcase.match("#{last_header}\n")}.compact
+    parsed_source = contents.split(/\n#+\s/).reject { |c| c.empty? }.map{|c| strip_file_links(c)}
+    @source_text ||= parsed_source.map{|c|
+      strip_markdown(c) if c.downcase.match("#{self.category_name.downcase.split(/\s#+\s/).compact.last}\n")
+    }.compact.last
   end
 
   def last_header
@@ -20,13 +24,12 @@ class RagCategory < Category
   end
 
   def flatten_text(raw_object)
-    strip_file_links(strip_markdown(raw_object[:text])).squish
+    strip_file_links(strip_markdown("#{self.category_name}" + " #{raw_object[:text]}")).squish
   end
 
   def strip_markdown(text)
     text = text.gsub(/
     \s*(#+)
-    |\s*[*-]
     |\s*```
     |\s*\[.*?\]\(.*?\)
     |`.*?`
@@ -34,7 +37,7 @@ class RagCategory < Category
     |\*(.*?)\*
     |_+(.*?)_
     |~~(.*?)~~
-    /, ' ').gsub("_",' ').gsub(/\n-/,"\n")
+    /, ' ').gsub("_",' ').gsub(/---/,"\n").gsub(/\n+/," \n ")
   end
 
   def strip_file_links(text)
